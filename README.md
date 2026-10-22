@@ -154,9 +154,6 @@ Contributions are welcome! Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) 
 
 Found a security issue? **Do not open a public issue** — follow [SECURITY.md](SECURITY.md).
 
-## License
-
-No license has been specified yet. Until one is added, all rights are reserved by the author. If you intend this to be open source, add a `LICENSE` file (e.g. MIT) to the repository root.
 
 ## Acknowledgements
 
