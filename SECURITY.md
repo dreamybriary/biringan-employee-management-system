@@ -18,7 +18,7 @@ This project is under active development. Only the latest commit on the `main` b
 Instead, use one of the following private channels:
 
 1. **GitHub Private Vulnerability Reporting** (preferred): go to the repository's **Security** tab → **Report a vulnerability**.
-2. **Email:** `<your-security-email@example.com>` *(replace with your contact address)*.
+2. **Email:** `<jettstefando@gmail.com>` *(replace with your contact address)*.
 
 Please include:
 
