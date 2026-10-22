@@ -1,6 +1,6 @@
-# Biri-Go — Biringan Employee Management System
+# Bri-Go — Biringan Employee Management System
 
-A role-based employee management web app built with **Flask** and **MySQL**. Biri-Go helps a small organization manage its people, departments, positions, leave requests, payroll records, and salary reports from a single dashboard.
+A role-based employee management web app built with **Flask** and **MySQL**. Bri-Go is a logistic company while this system is the employee management system for the said logistic company
 
 > ⚠️ **Status: work in progress.** The admin dashboard and the HR / owner API endpoints are implemented. The dedicated HR, Owner, and Employee pages are planned but not built yet. See [Roadmap](#roadmap) and read [SECURITY.md](SECURITY.md) before deploying anywhere public.
 
