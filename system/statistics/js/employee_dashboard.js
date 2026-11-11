@@ -362,6 +362,7 @@
     });
     scrollTop();
     if (name === 'documents') loadDocuments();
+    if (name === 'messages') { const frame = $('chat-frame'); if (frame && !frame.src) frame.src = '/chat?embed=1'; }
     // Keep the current page on refresh / browser back
     if (location.hash !== `#${name}`) history.replaceState(null, '', `#${name}`);
     if (mobile()) setNav(false);

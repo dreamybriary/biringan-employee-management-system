@@ -609,6 +609,13 @@ function showSection(name) {
 
     window.scrollTo(0, 0);
     if (name === "my-pay") loadMyPay();
+    if (name === "messages") {
+        const frame = $("#chat-frame");
+        // Check the HTML attribute, not the resolved iframe.src property.
+        if (frame && !frame.hasAttribute("src")) {
+            frame.setAttribute("src", "/chat?embed=1");
+    }
+    }
 }
 
 /* ---------- my salary & payslips (own pay only; the server uses the session) ---------- */

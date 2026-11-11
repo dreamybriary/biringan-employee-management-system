@@ -1,10 +1,10 @@
 # desktop.py
 import threading
 import webview
-from main import app
+from main import app, socketio
 
 def run_flask():
-    app.run(host="0.0.0.0", port=5000, debug=False, use_reloader=False)
+    socketio.run(app, host="0.0.0.0", port=5000, debug=False, use_reloader=False, allow_unsafe_werkzeug=True)
 
 if __name__ == "__main__":
     threading.Thread(target=run_flask, daemon=True).start()

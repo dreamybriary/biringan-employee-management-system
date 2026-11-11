@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+  <title>Messages - Biri-Go</title>
+  <link rel="stylesheet" href="/statistics/css/chat.css?v=20261112-phase4">
+</head>
+<body class="{{ 'is-embedded' if embed else 'is-standalone' }}">
+  <div class="chat" id="chat">
+
+    <aside class="list" aria-label="Conversations">
+      <header class="list-head">
+        {% if not embed %}<a class="back-link" href="{{ home }}">&lsaquo; Dashboard</a>{% endif %}
+        <h1>Messages</h1>
+      </header>
+      <div class="search">
+        <input id="people-search" type="search" aria-controls="people-results" aria-expanded="false" placeholder="Find a co-worker to message" autocomplete="off" aria-label="Find a co-worker to message">
+        <ul id="people-results" class="people" hidden></ul>
+      </div>
+      <ul id="conv-list" class="convs" aria-label="Your conversations"></ul>
+    </aside>
+
+    <section class="pane" aria-label="Conversation">
+      <header class="pane-head">
+        <button id="back-to-list" class="icon-btn" type="button" aria-label="Back to conversations">&lsaquo;</button>
+        <div>
+          <strong id="pane-title">Select a conversation</strong>
+          <small id="conn-status" role="status"></small>
+        </div>
+      </header>
+      <button id="load-older" class="older" type="button" hidden>Load older messages</button>
+      <div id="messages" class="messages" aria-label="Messages in this conversation" aria-live="polite">
+        <p class="empty">Pick a conversation, or search for a co-worker to start one.</p>
+      </div>
+      <form id="composer" class="composer" hidden>
+        <input id="file-input" type="file" multiple
+               accept=".jpg,.jpeg,.png,.gif,.webp,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.txt"
+               hidden aria-label="Choose attachments">
+        <button id="attach-btn" class="attach-btn" type="button" aria-label="Attach files" title="Attach files"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
+        <div class="composer-main">
+          <div id="selected-files" class="selected-files" hidden aria-live="polite"></div>
+          <textarea id="msg-input" rows="1" maxlength="2000" placeholder="Write a message" aria-label="Message"></textarea>
+        </div>
+        <button id="send-btn" type="submit">Send</button>
+      </form>
+    </section>
+
+  </div>
+
+  <script src="/statistics/js/socket.io.min.js"></script>
+  <script src="/statistics/js/chat.js?v=20261112-phase4"></script>
+</body>
+</html>

@@ -246,6 +246,7 @@ function showSection(section) {
     if (section === "reports") loadReports();
     if (section === "backup") loadBackups();
     if (section === "setting") loadSettings();
+    if (section === "messages") { const frame = byId("chat-frame"); if (frame && !frame.src) frame.src = "/chat?embed=1"; }
 
     document.querySelector(".main-content").scrollTop = 0;
 }
@@ -1345,4 +1346,4 @@ document.addEventListener("DOMContentLoaded", () => {
             toggle.classList.add("pop");
         });
     });
-})();
+})();   

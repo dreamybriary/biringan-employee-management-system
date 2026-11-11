@@ -1233,3 +1233,58 @@ tbody tr:hover td .avatar { transform: scale(1.1); }
 @media print {
     *, *::before, *::after { animation: none !important; }
 }
+
+/* Embedded company messaging page */
+#page-messages { padding: 0; }
+.chat-frame { display: block; width: 100%; height: calc(100vh - 100px); min-height: 480px; border: 0; background: #fff; }
+
+@media (max-width: 700px) {
+    .chat-frame { height: calc(100dvh - 150px); min-height: 420px; border-radius: 8px; }
+}
+
+/* Messenger: fill the content area edge to edge (same layout as the Employee portal).
+   Scoped to the active Messages page so every other route keeps its normal padding/visibility. */
+.main-content:has(#page-messages.active) {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#page-messages.active {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+#page-messages.active > .chat-frame {
+    display: block;
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    border: 0;
+}
+
+@media (max-width: 700px) {
+    .container:has(#page-messages.active) {
+        height: 100dvh;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .content:has(#page-messages.active) {
+        flex: 1 1 0;
+        min-height: 0;
+        overflow: hidden;
+    }
+}

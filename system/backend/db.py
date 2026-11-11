@@ -103,6 +103,95 @@ def init_db():
             ) ENGINE=InnoDB
             """
         )
+        # Messenger schema. Keep this in automatic development initialization so a
+        # fresh local database receives the same chat tables as a migrated install.
+        # Production installs use the matching SQL migration with DB_AUTO_INIT=0.
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS chat_conversation (
+                conversation_id INT NOT NULL AUTO_INCREMENT,
+                type ENUM('direct', 'group') NOT NULL,
+                name VARCHAR(150) NULL,
+                direct_key VARCHAR(32) NULL,
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (conversation_id),
+                UNIQUE KEY uq_chat_conversation_direct_key (direct_key),
+                KEY idx_chat_conversation_type (type)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+            """
+        )
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS chat_member (
+                conversation_id INT NOT NULL,
+                account_id INT NOT NULL,
+                last_read_message_id BIGINT UNSIGNED NOT NULL DEFAULT 0,
+                joined_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (conversation_id, account_id),
+                KEY idx_chat_member_account (account_id, conversation_id),
+                CONSTRAINT fk_chat_member_conversation
+                    FOREIGN KEY (conversation_id)
+                    REFERENCES chat_conversation (conversation_id)
+                    ON DELETE CASCADE,
+                CONSTRAINT fk_chat_member_account
+                    FOREIGN KEY (account_id)
+                    REFERENCES account (account_id)
+                    ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+            """
+        )
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS chat_message (
+                message_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                conversation_id INT NOT NULL,
+                sender_account_id INT NOT NULL,
+                content TEXT NOT NULL,
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (message_id),
+                KEY idx_chat_message_conversation_message (conversation_id, message_id),
+                KEY idx_chat_message_sender (sender_account_id),
+                CONSTRAINT fk_chat_message_conversation
+                    FOREIGN KEY (conversation_id)
+                    REFERENCES chat_conversation (conversation_id)
+                    ON DELETE CASCADE,
+                CONSTRAINT fk_chat_message_sender
+                    FOREIGN KEY (sender_account_id)
+                    REFERENCES account (account_id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+            """
+        )
+        cur.execute(
+            """
+            CREATE TABLE IF NOT EXISTS chat_attachment (
+                attachment_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+                message_id BIGINT UNSIGNED NOT NULL,
+                file_name VARCHAR(255) NOT NULL,
+                file_path VARCHAR(512) NOT NULL,
+                mime_type VARCHAR(127) NOT NULL,
+                file_size BIGINT UNSIGNED NOT NULL,
+                created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (attachment_id),
+                KEY idx_chat_attachment_message (message_id),
+                CONSTRAINT fk_chat_attachment_message
+                    FOREIGN KEY (message_id)
+                    REFERENCES chat_message (message_id)
+                    ON DELETE CASCADE
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+            """
+        )
+        # Create the company group once. Each account is added when it opens Messenger.
+        cur.execute(
+            """
+            INSERT INTO chat_conversation (type, name)
+            SELECT 'group', 'Company Chat'
+            FROM DUAL
+            WHERE NOT EXISTS (
+                SELECT 1 FROM chat_conversation WHERE type = 'group'
+            )
+            """
+        )
+
         # Leave requests: one table for admin, HR and employees
         cur.execute("ALTER TABLE leave_requests MODIFY leave_type VARCHAR(50) NOT NULL")
         add_column(cur, "leave_requests", "reason", "TEXT NULL")

@@ -91,6 +91,7 @@
 
                     <p class="nav-title">Company</p>
                     <ul>
+                        <li><a href="#messages" data-section="messages"><i class="fas fa-comments"></i>Messages</a></li>
                         <li><a href="#announcements" data-section="announcements"><i class="fas fa-bullhorn"></i>Announcements</a></li>
                         <li><a href="#reports" data-section="reports"><i class="fas fa-chart-line"></i>Reports</a></li>
                         <li><a href="#settings" data-section="settings"><i class="fas fa-gear"></i>Settings</a></li>
@@ -402,9 +403,15 @@
                             </table>
                         </div>
                     </section>
+                </section><!-- closes #page-settings -->
 
-        </div>
-    </div>
+                <section id="page-messages" class="page" aria-label="Messages">
+                    <iframe id="chat-frame" class="chat-frame" title="Messages"></iframe>
+                </section>
+
+            </main><!-- closes .main-content -->
+        </div><!-- closes .content -->
+    </div><!-- closes .container -->
 
     <div id="view-modal" class="modal" hidden>
         <div class="modal-box modal-wide" role="dialog" aria-modal="true" aria-labelledby="view-title">

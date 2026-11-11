@@ -334,6 +334,13 @@ function showSection(name) {
     $$("#nav a").forEach(a => a.classList.toggle("active", a.dataset.section === name));
     $("#sidebar").classList.remove("open"); $("#menu-btn").setAttribute("aria-expanded", "false");
     window.scrollTo(0, 0);
+    if (name === "messages") {
+        const frame = $("#chat-frame");
+        // Check the HTML attribute, not the resolved iframe.src property.
+        if (frame && !frame.hasAttribute("src")) {
+            frame.setAttribute("src", "/chat?embed=1");
+    }
+    }   
 }
 const route = () => showSection(location.hash.replace("#", "") || "dashboard");
 

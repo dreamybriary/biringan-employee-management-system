@@ -25,6 +25,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from profile_pictures import profile_bp
 from routes.my_pay import my_pay_bp
 from employee_documents import docs_bp, init_documents_table
+from routes.chat import chat_bp
+from chat_socket import socketio
 
 
 if getattr(sys, "_MEIPASS", None):  # running as a packaged .exe
@@ -49,6 +51,8 @@ app.config.update(
     ),
     PERMANENT_SESSION_LIFETIME=timedelta(hours=8),
     SESSION_REFRESH_EACH_REQUEST=False,
+    # Five 10 MB attachments plus multipart overhead.
+    MAX_CONTENT_LENGTH=52 * 1024 * 1024,
 )
 
 @app.context_processor
@@ -65,6 +69,9 @@ app.register_blueprint(owner_bp)
 app.register_blueprint(profile_bp)
 app.register_blueprint(my_pay_bp)
 app.register_blueprint(docs_bp)
+app.register_blueprint(chat_bp)
+socketio.init_app(app)
+
 
 ROLE_HOME = {"admin": "/admin", "hr": "/hr", "owner": "/owner", "employee": "/employee"}  # match your blueprint URLs
 
@@ -94,6 +101,16 @@ def no_cache(resp):
 MULTIPART_UPLOAD_PATHS = {"/api/employee/documents"}
 
 
+def _is_multipart_upload_path(path):
+    return (
+        path in MULTIPART_UPLOAD_PATHS
+        or (
+            path.startswith("/api/chat/conversations/")
+            and path.endswith("/attachments")
+        )
+    )
+
+
 @app.before_request
 def require_json_for_writes():
     if (
@@ -102,7 +119,7 @@ def require_json_for_writes():
         and not request.is_json
         and not (
             request.method == "POST"
-            and request.path in MULTIPART_UPLOAD_PATHS
+            and _is_multipart_upload_path(request.path)
             and request.mimetype == "multipart/form-data"
         )
     ):
@@ -125,6 +142,11 @@ def csrf_protect():
 
     if not hmac.compare_digest(token, session_token):
         return jsonify(error="Invalid CSRF token."), 403
+
+@app.errorhandler(413)
+def handle_request_too_large(_error):
+    return jsonify(error="Upload is too large. The maximum request size is 52 MB."), 413
+
 
 @app.errorhandler(ApiError)
 def handle_api_error(e):
@@ -783,4 +805,4 @@ def _init_db_safely():
 _init_db_safely()
 
 if __name__ == "__main__":
-    app.run(debug=os.environ.get("FLASK_DEBUG") == "1")
+    socketio.run(app, debug=os.environ.get("FLASK_DEBUG") == "1", allow_unsafe_werkzeug=True)

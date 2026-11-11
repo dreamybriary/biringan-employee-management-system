@@ -20,7 +20,7 @@
 
     <header class="topbar">
         <span class="brand">
-            <img src="/statistics/assets/logo.png" alt="Biri_Go logo" class="brand-logo" width="40" height="40">
+            <img src="/statistics/images/logo.png" alt="Biri_Go logo" class="brand-logo" width="40" height="40">
         Biri_Go
         </span>
         <button class="icon-btn" id="menu-toggle" type="button" aria-label="Toggle menu" aria-controls="sidebar" aria-expanded="true">
@@ -70,6 +70,7 @@
                     <li data-page="documents" tabindex="0" role="button"><i class="far fa-folder-open" aria-hidden="true"></i> My documents</li>
                     <li data-page="news" tabindex="0" role="button"><i class="fas fa-bullhorn" aria-hidden="true"></i> Announcements</li>
                     <li data-page="security" tabindex="0" role="button"><i class="fas fa-shield-halved" aria-hidden="true"></i> Login Activity</li>
+          <li data-page="messages" tabindex="0" role="button"><i class="fas fa-comments" aria-hidden="true"></i> Messages</li>
                 </ul>
             </nav>
 
@@ -330,7 +331,10 @@
                     </div>
                 </article>
             </section>
-        </main>
+        <section class="page" id="page-messages" aria-label="Messages">
+        <iframe id="chat-frame" class="chat-frame" title="Messages" loading="lazy"></iframe>
+      </section>
+    </main>
     </div>
 </div>
 

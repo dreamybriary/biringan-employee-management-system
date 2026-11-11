@@ -9,7 +9,6 @@
     <title>Admin | Biri-Go</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/statistics/css/admin.css">
-    <link rel="stylesheet" href="/statistics/css/animations.css">
 </head>
 <body>
     <div class="container">
@@ -78,6 +77,7 @@
                         <li data-section="reports" tabindex="0" role="button"><i class="fa-solid fa-chart-column" aria-hidden="true"></i>Reports</li>
                         <li data-section="backup" tabindex="0" role="button"><i class="fa-solid fa-database" aria-hidden="true"></i>Backups</li>
                         <li data-section="setting" tabindex="0" role="button"><i class="fa-solid fa-sliders" aria-hidden="true"></i>Settings</li>
+                        <li data-section="messages" tabindex="0" role="button"><i class="fa-solid fa-comments" aria-hidden="true"></i>Messages</li>
                     </ul>
                 </nav>
 
@@ -488,6 +488,9 @@
                         </div>
                     </section>
                 </div>
+            <section id="page-messages" class="page" aria-label="Messages">
+                    <iframe id="chat-frame" class="chat-frame" title="Messages" loading="lazy"></iframe>
+                </section>
             </main>
         </div>
     </div>
@@ -687,7 +690,6 @@
 
     <script src="/statistics/js/profile.js"></script>
     <script src="/statistics/js/admin.js"></script>
-    <script src="/statistics/js/animations.js"></script>
     <script src="/statistics/js/login_activity.js" defer></script>
 </body>
 </html>

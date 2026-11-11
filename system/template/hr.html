@@ -7,7 +7,7 @@
     <meta name="robots" content="noindex, nofollow">
     <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Dashboard | HR | Biri-Go</title>
-    <link rel="icon" type="image/png" href="/statistics/assets/logo.png">
+    <link rel="icon" type="image/png" href="/statistics/images/logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/statistics/css/hr.css">
 </head>
@@ -17,7 +17,7 @@
     <div class="container">
         <header class="topbar">
             <a class="brand" href="#dashboard">
-                <span class="brand-mark"><img src="/statistics/assets/logo.png" alt="" width="40" height="40"></span>
+                <span class="brand-mark"><img src="/statistics/images/logo.png" alt="" width="40" height="40"></span>
                 <strong>Biri_Go</strong>
             </a>
 
@@ -97,6 +97,7 @@
 
                     <p class="nav-title">Company</p>
                     <ul>
+                        <li><a href="#messages" data-section="messages"><i class="fas fa-comments"></i>Messages</a></li>
                         <li><a href="#announcements" data-section="announcements"><i class="fas fa-bullhorn"></i>Announcements</a></li>
                         <li><a href="#reports" data-section="reports"><i class="fas fa-chart-line"></i>Reports</a></li>
                         <li><a href="#settings" data-section="settings"><i class="fas fa-gear"></i>Settings</a></li>
@@ -521,9 +522,15 @@
                             </table>
                         </div>
                     </section>
+                </section><!-- closes #page-settings -->
 
-        </div>
-    </div>
+                <section id="page-messages" class="page" aria-label="Messages">
+                    <iframe id="chat-frame" class="chat-frame" title="Messages"></iframe>
+                </section>
+
+            </main><!-- closes .main-content -->
+        </div><!-- closes .content -->
+    </div><!-- closes .container -->
 
     <div id="form-modal" class="modal" hidden>
         <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="form-title">
@@ -556,7 +563,6 @@
 
     <script src="/statistics/js/profile.js"></script>
     <script src="/statistics/js/hr.js"></script>
-    <script src="/statistics/js/hr-animations.js"></script>
     <script src="/statistics/js/login_activity.js" defer></script>
 </body>
 </html>
