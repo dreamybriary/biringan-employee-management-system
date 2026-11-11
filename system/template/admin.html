@@ -67,10 +67,13 @@
                     <ul>
                         <li class="active" data-section="dashboard" tabindex="0" role="button"><i class="fa-solid fa-table-cells-large" aria-hidden="true"></i>Dashboard</li>
                         <li data-section="employees" tabindex="0" role="button"><i class="fa-solid fa-user-group" aria-hidden="true"></i>Employees</li>
+                        <li data-section="requests" tabindex="0" role="button"><i class="fa-solid fa-user-plus" aria-hidden="true"></i>Employee Requests <span id="requests-badge" style="display:none;width:8px;height:8px;border-radius:50%;background:#e53935;margin-left:6px;vertical-align:middle"></span></li>
                         <li data-section="department" tabindex="0" role="button"><i class="fa-solid fa-sitemap" aria-hidden="true"></i>Department</li>
                         <li data-section="positions" tabindex="0" role="button"><i class="fa-solid fa-briefcase" aria-hidden="true"></i>Positions</li>
                         <li data-section="salaries" tabindex="0" role="button"><i class="fa-solid fa-wallet" aria-hidden="true"></i>Salaries</li>
+                        {% if has_linked_employee %}
                         <li data-section="my-pay" tabindex="0" role="button"><i class="fa-solid fa-money-check-dollar" aria-hidden="true"></i>My Salary &amp; Payslips</li>
+                        {% endif %}
                         <li data-section="leaves" tabindex="0" role="button"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i>Leaves</li>
                         <li data-section="reports" tabindex="0" role="button"><i class="fa-solid fa-chart-column" aria-hidden="true"></i>Reports</li>
                         <li data-section="backup" tabindex="0" role="button"><i class="fa-solid fa-database" aria-hidden="true"></i>Backups</li>
@@ -242,6 +245,7 @@
                     </section>
                 </div>
 
+                {% if has_linked_employee %}
                 <div id="page-my-pay" class="page">
                     <div class="dashboard-cards">
                         <div class="card card-green">
@@ -268,7 +272,33 @@
                         <div class="table-container">
                             <table id="mypay-table">
                                 <thead>
-                                    <tr><th>Period</th><th>Gross Pay</th><th>Deductions</th><th>Net Pay</th><th>Payslip</th></tr>
+                                    <tr><th>Period</th><th>Gross Pay</th><th>Deductions</th><th>Net Pay</th><th>Confirmation</th><th>Payslip</th></tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </section>
+                </div>
+                {% endif %}
+
+                <!-- Employee requests page (sent by HR) -->
+                <div id="page-requests" class="page">
+                    <section class="section">
+                        <div class="section-header">
+                            <h2>Employee Requests</h2>
+                            <div class="section-actions">
+                                <select id="request-filter" aria-label="Filter by status">
+                                    <option value="">All statuses</option>
+                                    <option value="Pending" selected>Pending</option>
+                                    <option value="Approved">Approved</option>
+                                    <option value="Rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table id="requests-table">
+                                <thead>
+                                    <tr><th>ID</th><th>Name</th><th>Email</th><th>Department</th><th>Position</th><th>Salary</th><th>Sent</th><th>Status</th><th>Actions</th></tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
@@ -440,6 +470,20 @@
                                         <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Update password</button>
                                     </div>
                                 </form>
+                            </div>
+
+                        </div>
+                        <div class="report-box settings-box login-activity-panel">
+                            <div class="section-header">
+                                <h3>Login Activity</h3>
+                                <button type="button" class="btn btn-secondary" id="login-activity-refresh">Refresh</button>
+                            </div>
+                            <p class="muted" id="login-activity-message" role="status">Loading login activity…</p>
+                            <div class="table-container login-activity-wrap">
+                                <table id="login-activity-table">
+                                    <thead><tr><th>Account ID</th><th>Role</th><th>Activity</th><th>Status</th><th>IP Address</th><th>Device / Browser</th><th>Date &amp; Time</th></tr></thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </section>
@@ -644,5 +688,6 @@
     <script src="/statistics/js/profile.js"></script>
     <script src="/statistics/js/admin.js"></script>
     <script src="/statistics/js/animations.js"></script>
+    <script src="/statistics/js/login_activity.js" defer></script>
 </body>
 </html>
